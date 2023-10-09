@@ -18,8 +18,8 @@ public class RecruitmentService {
 
     private final RecruitmentRepository recruitmentRepository;
 
-    public RecruitmentService(RecruitmentRepository recruitmentRepository, RecruitmentRepository recruitmentRepository1) {
-        this.recruitmentRepository = recruitmentRepository1;
+    public RecruitmentService(RecruitmentRepository recruitmentRepository){
+        this.recruitmentRepository = recruitmentRepository;
     }
 
     // 채용 공고 등록
@@ -34,7 +34,7 @@ public class RecruitmentService {
         for (Recruitment recruitment : recruitmentList) {
             list.add(RecruitmentListDto.builder()
                   .id(recruitment.getId())
-                  .company_name(recruitment.getCompany_name())
+                  .companyName(recruitment.getCompanyName())
                   .country(recruitment.getCountry())
                   .city(recruitment.getCity())
                   .position(recruitment.getPosition())
@@ -48,15 +48,21 @@ public class RecruitmentService {
     // 채용 공고 상세
     public RecruitmentDetailDto getRecruitmentDetail(Long id) {
         Recruitment recruitment = recruitmentRepository.findById(id).get();
+        List<Recruitment> recruitmentList = recruitmentRepository.findAllByCompanyId(recruitment.getCompanyId());
+        List<String> list = new ArrayList<>();
+        for (Recruitment recruitment1 : recruitmentList) {
+            list.add(recruitment1.getPosition());
+        }
         return RecruitmentDetailDto.builder()
                 .id(recruitment.getId())
-                .company_name(recruitment.getCompany_name())
+                .companyName(recruitment.getCompanyName())
                 .country(recruitment.getCountry())
                 .city(recruitment.getCity())
                 .position(recruitment.getPosition())
                 .reward(recruitment.getReward())
                 .skill(recruitment.getSkill())
                 .details(recruitment.getDetails())
+                .anotherRecruitment(list)
                 .build();
     }
 

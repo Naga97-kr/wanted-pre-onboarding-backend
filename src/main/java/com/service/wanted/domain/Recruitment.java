@@ -22,11 +22,11 @@ public class Recruitment {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "company_id", nullable = false)
-    private Long company_id;
+    @Column(name = "companyId", nullable = false)
+    private Long companyId;
 
-    @Column(name = "company_name", nullable = false)
-    private String company_name;
+    @Column(name = "companyName", nullable = false)
+    private String companyName;
 
     @Column(name = "country", nullable = false)
     private String country;

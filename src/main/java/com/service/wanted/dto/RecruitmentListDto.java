@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RecruitmentListDto {
     private Long id;
-    private String company_name;
+    private String companyName;
     private String country;
     private String city;
     private String position;

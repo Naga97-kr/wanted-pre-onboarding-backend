@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RecruitmentDto {
-    private String company_name;
+    private String companyName;
     private String country;
     private String city;
     private String position;
