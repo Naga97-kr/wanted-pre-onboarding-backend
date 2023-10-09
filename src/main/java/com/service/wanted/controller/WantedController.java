@@ -2,6 +2,7 @@ package com.service.wanted.controller;
 
 import com.service.wanted.domain.Recruitment;
 import com.service.wanted.dto.RecruitmentDto;
+import com.service.wanted.dto.RecruitmentListDto;
 import com.service.wanted.service.RecruitmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,12 @@ public class WantedController {
     public ResponseEntity<Recruitment> saveRecruitment(@RequestBody Recruitment recruitment) {
         recruitmentService.save(recruitment);
         return ResponseEntity.ok(recruitment);
+    }
+
+    // 채용 공고 리스트 확인
+    @GetMapping("/list/recruitment")
+    public ResponseEntity<List<RecruitmentListDto>> getRecruitmentList() {
+        return ResponseEntity.ok(recruitmentService.getRecruitmentList());
     }
 
     // 채용 공고 수정

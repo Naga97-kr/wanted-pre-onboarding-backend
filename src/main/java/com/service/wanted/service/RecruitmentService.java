@@ -3,7 +3,9 @@ package com.service.wanted.service;
 import com.service.wanted.domain.Recruitment;
 import com.service.wanted.domain.RecruitmentRepository;
 import com.service.wanted.dto.RecruitmentDto;
+import com.service.wanted.dto.RecruitmentListDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +26,24 @@ public class RecruitmentService {
         recruitmentRepository.save(recruitment);
     }
 
+    // 채용 공고 리스트
+    public List<RecruitmentListDto> getRecruitmentList() {
+        List<RecruitmentListDto> list = new ArrayList<>();
+        List<Recruitment> recruitmentList = recruitmentRepository.findAll();
+        for (Recruitment recruitment : recruitmentList) {
+            list.add(RecruitmentListDto.builder()
+                  .id(recruitment.getId())
+                  .company_name(recruitment.getCompany_name())
+                  .country(recruitment.getCountry())
+                  .city(recruitment.getCity())
+                  .position(recruitment.getPosition())
+                  .reward(recruitment.getReward())
+                  .skill(recruitment.getSkill())
+                  .build());
+        }
+        return list;
+    }
+
     // 채용 공고 수정
     public void update(Long id, RecruitmentDto recruitmentDto) {
         Recruitment recruit = recruitmentRepository.findById(id).get();
@@ -39,4 +59,5 @@ public class RecruitmentService {
     public void delete(Long id) {
         recruitmentRepository.deleteById(id);
     }
+
 }
