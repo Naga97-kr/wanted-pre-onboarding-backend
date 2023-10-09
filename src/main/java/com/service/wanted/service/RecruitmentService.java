@@ -9,6 +9,7 @@ import com.service.wanted.dto.RecruitmentUpdateDto;
 import com.service.wanted.dto.RecruitmentListDto;
 import com.service.wanted.dto.RecruitmentSaveDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class RecruitmentService {
     // 채용 공고 리스트
     public List<RecruitmentListDto> getRecruitmentList() {
         List<RecruitmentListDto> list = new ArrayList<>();
-        List<Recruitment> recruitmentList = recruitmentRepository.findAll();
+        List<Recruitment> recruitmentList = recruitmentRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         for (Recruitment recruitment : recruitmentList) {
             list.add(RecruitmentListDto.builder()
                     .id(recruitment.getId())
