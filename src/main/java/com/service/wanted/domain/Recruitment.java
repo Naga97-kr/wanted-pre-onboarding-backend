@@ -23,7 +23,16 @@ public class Recruitment {
     private Long id;
 
     @Column(name = "company_id", nullable = false)
-    private String company_id;
+    private Long company_id;
+
+    @Column(name = "company_name", nullable = false)
+    private String company_name;
+
+    @Column(name = "country", nullable = false)
+    private String country;
+
+    @Column(name = "city", nullable = false)
+    private String city;
 
     @Column(name = "position", nullable = false)
     private String position;

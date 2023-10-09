@@ -1,12 +1,13 @@
 package com.service.wanted.controller;
 
 import com.service.wanted.domain.Recruitment;
+import com.service.wanted.dto.RecruitmentDto;
 import com.service.wanted.service.RecruitmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class WantedController {
@@ -18,15 +19,23 @@ public class WantedController {
         this.recruitmentService = recruitmentService;
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello world";
-    }
-
-    @PostMapping("/recruitment")
-    public void saveRecruitment(@RequestBody Recruitment recruitment) {
+    // 채용 공고 등록
+    @PostMapping("/add/recruitment")
+    public ResponseEntity<Recruitment> saveRecruitment(@RequestBody Recruitment recruitment) {
         recruitmentService.save(recruitment);
+        return ResponseEntity.ok(recruitment);
     }
 
+    // 채용 공고 수정
+    @PutMapping("/update/recruitment/{id}")
+    public ResponseEntity<RecruitmentDto> updateRecruitment(@PathVariable("id") Long id, @RequestBody RecruitmentDto recruitmentDto) {
+        recruitmentService.update(id, recruitmentDto);
+        return ResponseEntity.ok(recruitmentDto);
+    }
 
+    // 채용 공고 삭제
+    @DeleteMapping("/delete/recruitment/{id}")
+    public void deleteRecruitment(@PathVariable("id") Long id) {
+        recruitmentService.delete(id);
+    }
 }
