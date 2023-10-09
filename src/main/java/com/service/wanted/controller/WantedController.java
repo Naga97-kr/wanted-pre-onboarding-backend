@@ -1,6 +1,7 @@
 package com.service.wanted.controller;
 
 import com.service.wanted.domain.Recruitment;
+import com.service.wanted.dto.RecruitmentDetailDto;
 import com.service.wanted.dto.RecruitmentDto;
 import com.service.wanted.dto.RecruitmentListDto;
 import com.service.wanted.service.RecruitmentService;
@@ -31,6 +32,12 @@ public class WantedController {
     @GetMapping("/list/recruitment")
     public ResponseEntity<List<RecruitmentListDto>> getRecruitmentList() {
         return ResponseEntity.ok(recruitmentService.getRecruitmentList());
+    }
+
+    // 채용 공고 상세 페이지 확인
+    @GetMapping("/detail/recruitment/{id}")
+    public ResponseEntity<RecruitmentDetailDto> getRecruitmentDetail(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(recruitmentService.getRecruitmentDetail(id));
     }
 
     // 채용 공고 수정

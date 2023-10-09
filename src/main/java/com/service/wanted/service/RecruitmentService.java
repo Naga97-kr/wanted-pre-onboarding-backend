@@ -2,6 +2,7 @@ package com.service.wanted.service;
 
 import com.service.wanted.domain.Recruitment;
 import com.service.wanted.domain.RecruitmentRepository;
+import com.service.wanted.dto.RecruitmentDetailDto;
 import com.service.wanted.dto.RecruitmentDto;
 import com.service.wanted.dto.RecruitmentListDto;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,21 @@ public class RecruitmentService {
                   .build());
         }
         return list;
+    }
+
+    // 채용 공고 상세
+    public RecruitmentDetailDto getRecruitmentDetail(Long id) {
+        Recruitment recruitment = recruitmentRepository.findById(id).get();
+        return RecruitmentDetailDto.builder()
+                .id(recruitment.getId())
+                .company_name(recruitment.getCompany_name())
+                .country(recruitment.getCountry())
+                .city(recruitment.getCity())
+                .position(recruitment.getPosition())
+                .reward(recruitment.getReward())
+                .skill(recruitment.getSkill())
+                .details(recruitment.getDetails())
+                .build();
     }
 
     // 채용 공고 수정
