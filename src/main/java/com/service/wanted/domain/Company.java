@@ -14,6 +14,7 @@ import java.util.*;
 @NoArgsConstructor
 @Entity
 @EntityScan
+@Builder
 @Table(name = "company")
 public class Company {
 
@@ -34,4 +35,5 @@ public class Company {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "recruitmentId")
     private List<Recruitment> recruitmentList = new ArrayList<>();
+
 }
