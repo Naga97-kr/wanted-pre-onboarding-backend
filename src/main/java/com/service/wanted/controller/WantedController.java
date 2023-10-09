@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,20 @@ public class WantedController {
     @GetMapping("/detail/recruitment/{id}")
     public ResponseEntity<RecruitmentDetailDto> getRecruitmentDetail(@PathVariable("id") Long id) {
         return ResponseEntity.ok(recruitmentService.getRecruitmentDetail(id));
+    }
+
+    // 회사이름으로 검색
+    @GetMapping("/search/recruitment/company")
+    public ResponseEntity<List<RecruitmentListDto>> searchNameRecruitment(@RequestParam("keyword") String keyword) throws UnsupportedEncodingException {
+        String incording = new String(keyword.getBytes("8859_1"), "UTF-8");
+        return ResponseEntity.ok(recruitmentService.getSearchNameRecruitment(keyword));
+    }
+    
+    // 포지션으로 검색
+    @GetMapping("/search/recruitment/position")
+    public ResponseEntity<List<RecruitmentListDto>> searchPositionRecruitment(@RequestParam("keyword") String keyword) throws UnsupportedEncodingException {
+        String incording = new String(keyword.getBytes("8859_1"), "UTF-8");
+        return ResponseEntity.ok(recruitmentService.getSearchPositionRecruitmentList(keyword));
     }
 
     // 채용 공고 수정

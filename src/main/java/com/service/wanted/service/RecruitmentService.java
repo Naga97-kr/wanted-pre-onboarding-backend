@@ -65,6 +65,42 @@ public class RecruitmentService {
                 .anotherRecruitment(list)
                 .build();
     }
+    
+    // 회사이름으로 검색
+    public List<RecruitmentListDto> getSearchNameRecruitment(String keyword) {
+        List<RecruitmentListDto> list = new ArrayList<>();
+        List<Recruitment> recruitmentList = recruitmentRepository.findAllByCompanyNameContains(keyword);
+        for (Recruitment recruitment : recruitmentList) {
+            list.add(RecruitmentListDto.builder()
+                    .id(recruitment.getId())
+                    .companyName(recruitment.getCompanyName())
+                    .country(recruitment.getCountry())
+                    .city(recruitment.getCity())
+                    .position(recruitment.getPosition())
+                    .reward(recruitment.getReward())
+                    .skill(recruitment.getSkill())
+                    .build());
+        }
+        return list;
+    }
+    
+    // 포지션으로 검색
+    public List<RecruitmentListDto> getSearchPositionRecruitmentList(String keyword) {
+        List<RecruitmentListDto> list = new ArrayList<>();
+        List<Recruitment> recruitmentList = recruitmentRepository.findAllByPositionContains(keyword);
+        for (Recruitment recruitment : recruitmentList) {
+            list.add(RecruitmentListDto.builder()
+                    .id(recruitment.getId())
+                    .companyName(recruitment.getCompanyName())
+                    .country(recruitment.getCountry())
+                    .city(recruitment.getCity())
+                    .position(recruitment.getPosition())
+                    .reward(recruitment.getReward())
+                    .skill(recruitment.getSkill())
+                    .build());
+        }
+        return list;
+    }
 
     // 채용 공고 수정
     public void update(Long id, RecruitmentDto recruitmentDto) {
