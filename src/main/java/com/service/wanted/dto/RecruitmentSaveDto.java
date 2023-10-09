@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecruitmentDto {
-    private String companyName;
-    private String country;
-    private String city;
+public class RecruitmentSaveDto {
+    private Long companyId;
     private String position;
     private String reward;
     private String details;

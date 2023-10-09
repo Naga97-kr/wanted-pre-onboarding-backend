@@ -22,17 +22,9 @@ public class Recruitment {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "companyId", nullable = false)
-    private Long companyId;
-
-    @Column(name = "companyName", nullable = false)
-    private String companyName;
-
-    @Column(name = "country", nullable = false)
-    private String country;
-
-    @Column(name = "city", nullable = false)
-    private String city;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "companyId")
+    private Company company;
 
     @Column(name = "position", nullable = false)
     private String position;

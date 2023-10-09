@@ -8,14 +8,17 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
     show-sql: true
     properties:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+  sql:
+    init:
+      data-locations: classpath*:db/data.sql
+      mode: always
+      platform: MySQL
 
 logging:
   level:

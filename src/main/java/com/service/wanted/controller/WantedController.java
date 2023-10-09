@@ -1,11 +1,10 @@
 package com.service.wanted.controller;
 
-import com.service.wanted.domain.Recruitment;
-import com.service.wanted.dto.RecruitmentDetailDto;
-import com.service.wanted.dto.RecruitmentDto;
-import com.service.wanted.dto.RecruitmentListDto;
+import com.service.wanted.dto.*;
+import com.service.wanted.service.ApplyService;
 import com.service.wanted.service.RecruitmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +15,30 @@ import java.util.List;
 public class WantedController {
 
     private final RecruitmentService recruitmentService;
+    private final ApplyService applyService;
 
     @Autowired
-    public WantedController(RecruitmentService recruitmentService) {
+    public WantedController(RecruitmentService recruitmentService, ApplyService applyService) {
         this.recruitmentService = recruitmentService;
+        this.applyService = applyService;
     }
 
     // 채용 공고 등록
     @PostMapping("/add/recruitment")
-    public ResponseEntity<Recruitment> saveRecruitment(@RequestBody Recruitment recruitment) {
-        recruitmentService.save(recruitment);
-        return ResponseEntity.ok(recruitment);
+    public ResponseEntity<RecruitmentSaveDto> saveRecruitment(@RequestBody RecruitmentSaveDto recruitmentSaveDto) {
+        recruitmentService.save(recruitmentSaveDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(recruitmentSaveDto);
+    }
+
+    // 채용 공고 지원
+    @PostMapping("/apply/recruitment")
+    public ResponseEntity<Boolean> applyRecruitment(@RequestBody ApplyDto applyDto) {
+        boolean check = applyService.applyCheck(applyDto.getRecruitmentId(), applyDto.getUserId()); // 공고 지원 여부 확인
+        if (!check) { // 지원 여부 없을 시 지원등록
+            applyService.save(applyDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(check);
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(check);
     }
 
     // 채용 공고 리스트 확인
@@ -47,7 +59,7 @@ public class WantedController {
         String incording = new String(keyword.getBytes("8859_1"), "UTF-8");
         return ResponseEntity.ok(recruitmentService.getSearchNameRecruitment(keyword));
     }
-    
+
     // 포지션으로 검색
     @GetMapping("/search/recruitment/position")
     public ResponseEntity<List<RecruitmentListDto>> searchPositionRecruitment(@RequestParam("keyword") String keyword) throws UnsupportedEncodingException {
@@ -57,7 +69,7 @@ public class WantedController {
 
     // 채용 공고 수정
     @PutMapping("/update/recruitment/{id}")
-    public ResponseEntity<RecruitmentDto> updateRecruitment(@PathVariable("id") Long id, @RequestBody RecruitmentDto recruitmentDto) {
+    public ResponseEntity<RecruitmentUpdateDto> updateRecruitment(@PathVariable("id") Long id, @RequestBody RecruitmentUpdateDto recruitmentDto) {
         recruitmentService.update(id, recruitmentDto);
         return ResponseEntity.ok(recruitmentDto);
     }
@@ -67,4 +79,5 @@ public class WantedController {
     public void deleteRecruitment(@PathVariable("id") Long id) {
         recruitmentService.delete(id);
     }
+
 }
